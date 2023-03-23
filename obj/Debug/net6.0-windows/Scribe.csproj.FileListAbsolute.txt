@@ -1,0 +1,10 @@
+C:\Users\jefferysumner\OneDrive\Scribe\obj\Debug\net6.0-windows\Scribe.csproj.AssemblyReference.cache
+C:\Users\jefferysumner\OneDrive\Scribe\obj\Debug\net6.0-windows\Scribe.Form1.resources
+C:\Users\jefferysumner\OneDrive\Scribe\obj\Debug\net6.0-windows\Scribe.csproj.GenerateResource.cache
+C:\Users\jefferysumner\OneDrive\Scribe\obj\Debug\net6.0-windows\Scribe.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jefferysumner\OneDrive\Scribe\obj\Debug\net6.0-windows\Scribe.AssemblyInfoInputs.cache
+C:\Users\jefferysumner\OneDrive\Scribe\obj\Debug\net6.0-windows\Scribe.AssemblyInfo.cs
+C:\Users\jefferysumner\OneDrive\Scribe\obj\Debug\net6.0-windows\Scribe.csproj.CoreCompileInputs.cache
+C:\Users\jefferysumner\OneDrive\Scribe\obj\Debug\net6.0-windows\Scribe.MainForm.resources
+C:\Users\jefferysumner\OneDrive\Scribe\obj\Debug\net6.0-windows\VoicemailTranscription.MainForm.resources
+C:\Users\jefferysumner\OneDrive\Scribe\obj\Debug\net6.0-windows\Scribe.Properties.Resources.resources
