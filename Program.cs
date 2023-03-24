@@ -94,9 +94,10 @@ namespace Scribe
             {
                 foreach (var attachment in mimeMessage.Attachments)
                 {
-                    if (attachment is MimePart mimePart)
+                    var mimePart = attachment as MimePart;
+                    if (mimePart != null)
                     {
-                        mailMessage.Attachments.Add(new Attachment(mimePart.ContentStream, mimePart.FileName));
+                        mailMessage.Attachments.Add(new Attachment(mimePart.Content.Stream, mimePart.FileName));
                     }
                 }
             }
@@ -109,8 +110,8 @@ namespace Scribe
         private MailMessage[] RetrieveNewEmails()
         {
             using var client = new ImapClient();
-            client.Connect(_configuration["Email:Server"], Convert.ToInt32(_configuration["Email:Port"]), Convert.ToBoolean(_configuration["Email:UseSsl"]));
-            client.Authenticate(_configuration["Email:Username"], _configuration["Email:Password"]);
+            client.Connect(_configuration["Email:Server"], Convert.ToInt32(_configuration["Email:995"]), Convert.ToBoolean(_configuration["Email:UseSsl"]));
+            client.Authenticate(_configuration["Email:nick_sumner@yahoo.com"], _configuration["Email:ygdjyupmgkcnlsoz"]);
             var inbox = client.Inbox;
             inbox.Open(FolderAccess.ReadOnly);
             var searchQuery = SearchQuery.NotSeen;
@@ -134,13 +135,18 @@ namespace Scribe
             return Directory.GetFiles(voicemailDirectory, "*.wav");
         }
 
+        private void InitializeComponent()
+        {
+
+        }
+
         private void ProcessEmail(MailMessage email)
         {
-            // Initialize voicemailAttachment to null
-            Attachment voicemailAttachment = null;
-
             // Extract the voicemail attachment from the email (if present).
-            voicemailAttachment = email.Attachments.FirstOrDefault(a => a.ContentType != null && a.ContentType.MediaType == "audio/wav");
+            Attachment voicemailAttachment = email.Attachments.FirstOrDefault(a =>
+                a.ContentType?.MediaType == "audio/wav" &&
+                a.ContentDisposition?.DispositionType == "attachment" &&
+                !string.IsNullOrEmpty(a.ContentDisposition.FileName));
 
             if (voicemailAttachment == null)
             {
@@ -148,21 +154,13 @@ namespace Scribe
                 return;
             }
 
-            // Ensure that the attachment is a MimePart
-            var mimePart = voicemailAttachment.ContentStream != null ? new MimePart(MediaTypeNames.Application.Octet) { Content = new MimeContent(voicemailAttachment.ContentStream) } : null;
-            if (mimePart == null)
-            {
-                Console.WriteLine("Invalid voicemail attachment.");
-                return;
-            }
-
             // Save the attachment to a file.
             var voicemailDirectory = _configuration["Voicemail:Directory"];
-            var fileName = mimePart.FileName;
+            var fileName = voicemailAttachment.ContentDisposition.FileName;
             var filePath = Path.Combine(voicemailDirectory, fileName);
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
-                mimePart.ContentStream.CopyTo(fileStream);
+                voicemailAttachment.ContentStream.CopyTo(fileStream);
             }
 
             // Process the voicemail.
