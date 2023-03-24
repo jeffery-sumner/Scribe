@@ -15,6 +15,8 @@ using System.Net.Mime;
 
 namespace Scribe
 {
+    
+
     public partial class MainForm : Form
     {
         private readonly IConfiguration _configuration;
@@ -29,6 +31,17 @@ namespace Scribe
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
             _configuration = builder.Build();
+        }
+
+        class Program
+        {
+            [STAThread]
+            static void Main()
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new MainForm());
+            }
         }
 
         private void ProcessEmailsButton_Click(object sender, EventArgs e)
@@ -137,7 +150,100 @@ namespace Scribe
 
         private void InitializeComponent()
         {
-
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            button1 = new Button();
+            button2 = new Button();
+            button3 = new Button();
+            button4 = new Button();
+            button5 = new Button();
+            button6 = new Button();
+            SuspendLayout();
+            // 
+            // button1
+            // 
+            button1.BackColor = Color.DarkGoldenrod;
+            button1.FlatStyle = FlatStyle.Popup;
+            button1.ForeColor = Color.White;
+            button1.Location = new Point(12, 262);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 0;
+            button1.Text = "Prev";
+            button1.UseVisualStyleBackColor = false;
+            // 
+            // button2
+            // 
+            button2.BackColor = Color.DarkGoldenrod;
+            button2.FlatStyle = FlatStyle.Popup;
+            button2.ForeColor = Color.White;
+            button2.Location = new Point(266, 262);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 1;
+            button2.Text = "Play";
+            button2.UseVisualStyleBackColor = false;
+            button2.Click += button2_Click;
+            // 
+            // button3
+            // 
+            button3.BackColor = Color.DarkGoldenrod;
+            button3.FlatStyle = FlatStyle.Popup;
+            button3.ForeColor = Color.White;
+            button3.Location = new Point(473, 262);
+            button3.Name = "button3";
+            button3.Size = new Size(75, 23);
+            button3.TabIndex = 2;
+            button3.Text = "Next";
+            button3.UseVisualStyleBackColor = false;
+            // 
+            // button4
+            // 
+            button4.BackColor = Color.DarkGoldenrod;
+            button4.FlatStyle = FlatStyle.Popup;
+            button4.ForeColor = Color.White;
+            button4.Location = new Point(12, 12);
+            button4.Name = "button4";
+            button4.Size = new Size(75, 23);
+            button4.TabIndex = 3;
+            button4.Text = "button4";
+            button4.UseVisualStyleBackColor = false;
+            // 
+            // button5
+            // 
+            button5.BackColor = Color.DarkGoldenrod;
+            button5.FlatStyle = FlatStyle.Popup;
+            button5.ForeColor = Color.White;
+            button5.Location = new Point(266, 12);
+            button5.Name = "button5";
+            button5.Size = new Size(75, 23);
+            button5.TabIndex = 4;
+            button5.Text = "Stop";
+            button5.UseVisualStyleBackColor = false;
+            // 
+            // button6
+            // 
+            button6.BackColor = Color.DarkGoldenrod;
+            button6.FlatStyle = FlatStyle.Popup;
+            button6.ForeColor = Color.White;
+            button6.Location = new Point(473, 12);
+            button6.Name = "button6";
+            button6.Size = new Size(75, 23);
+            button6.TabIndex = 5;
+            button6.Text = "button6";
+            button6.UseVisualStyleBackColor = false;
+            // 
+            // MainForm
+            // 
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            ClientSize = new Size(560, 297);
+            Controls.Add(button6);
+            Controls.Add(button5);
+            Controls.Add(button4);
+            Controls.Add(button3);
+            Controls.Add(button2);
+            Controls.Add(button1);
+            Name = "MainForm";
+            ResumeLayout(false);
         }
 
         private void ProcessEmail(MailMessage email)
@@ -166,5 +272,17 @@ namespace Scribe
             // Process the voicemail.
             ProcessVoicemail(filePath);
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private Button button1;
+        private Button button2;
+        private Button button3;
+        private Button button4;
+        private Button button5;
+        private Button button6;
     }
 }
