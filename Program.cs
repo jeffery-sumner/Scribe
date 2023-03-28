@@ -12,10 +12,12 @@ using MailKit.Net.Smtp;
 using MimeKit;
 using System.Linq;
 using System.Net.Mime;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using System.Media;
 
 namespace Scribe
 {
-    
+
 
     public partial class MainForm : Form
     {
@@ -33,6 +35,7 @@ namespace Scribe
             _configuration = builder.Build();
         }
 
+
         class Program
         {
             [STAThread]
@@ -43,6 +46,7 @@ namespace Scribe
                 Application.Run(new MainForm());
             }
         }
+
 
         private void ProcessEmailsButton_Click(object sender, EventArgs e)
         {
@@ -57,6 +61,7 @@ namespace Scribe
 
             MessageBox.Show("Email processing complete.");
         }
+
 
         private async void ProcessVoicemail(string voicemailPath)
         {
@@ -123,7 +128,7 @@ namespace Scribe
         private MailMessage[] RetrieveNewEmails()
         {
             using var client = new ImapClient();
-            client.Connect(_configuration["Email:Server"], Convert.ToInt32(_configuration["Email:995"]), Convert.ToBoolean(_configuration["Email:UseSsl"]));
+            client.Connect(_configuration["Email:smtp.mail.yahoo.com"], Convert.ToInt32(_configuration["Email:995"]), Convert.ToBoolean(_configuration["Email:UseSsl"]));
             client.Authenticate(_configuration["Email:nick_sumner@yahoo.com"], _configuration["Email:ygdjyupmgkcnlsoz"]);
             var inbox = client.Inbox;
             inbox.Open(FolderAccess.ReadOnly);
@@ -150,103 +155,167 @@ namespace Scribe
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             button1 = new Button();
-            button2 = new Button();
+            Play = new Button();
             button3 = new Button();
-            button4 = new Button();
+            ReadScreen = new Button();
             button5 = new Button();
-            button6 = new Button();
+            ProcessVM = new Button();
+            label1 = new Label();
+            panel1 = new Panel();
+            panel2 = new Panel();
+            textBox1 = new TextBox();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // button1
             // 
-            button1.BackColor = Color.DarkGoldenrod;
+            button1.BackColor = Color.Black;
             button1.FlatStyle = FlatStyle.Popup;
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(12, 262);
+            button1.Font = new Font("Impact", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            button1.ForeColor = Color.FromArgb(255, 128, 0);
+            button1.Location = new Point(0, 60);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 0;
-            button1.Text = "Prev";
+            button1.Text = "<<<";
             button1.UseVisualStyleBackColor = false;
             // 
-            // button2
+            // Play
             // 
-            button2.BackColor = Color.DarkGoldenrod;
-            button2.FlatStyle = FlatStyle.Popup;
-            button2.ForeColor = Color.White;
-            button2.Location = new Point(266, 262);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 1;
-            button2.Text = "Play";
-            button2.UseVisualStyleBackColor = false;
-            button2.Click += button2_Click;
+            Play.BackColor = Color.FromArgb(0, 192, 0);
+            Play.FlatStyle = FlatStyle.Popup;
+            Play.Font = new Font("Impact", 9.75F, FontStyle.Italic, GraphicsUnit.Point);
+            Play.ForeColor = Color.White;
+            Play.Location = new Point(162, 60);
+            Play.Name = "Play";
+            Play.Size = new Size(75, 23);
+            Play.TabIndex = 1;
+            Play.Text = "Play";
+            Play.UseVisualStyleBackColor = false;
+            Play.Click += button2_Click;
             // 
             // button3
             // 
-            button3.BackColor = Color.DarkGoldenrod;
+            button3.BackColor = Color.Black;
             button3.FlatStyle = FlatStyle.Popup;
-            button3.ForeColor = Color.White;
-            button3.Location = new Point(473, 262);
+            button3.Font = new Font("Impact", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            button3.ForeColor = Color.FromArgb(255, 128, 0);
+            button3.Location = new Point(243, 60);
             button3.Name = "button3";
             button3.Size = new Size(75, 23);
             button3.TabIndex = 2;
-            button3.Text = "Next";
+            button3.Text = ">>>";
             button3.UseVisualStyleBackColor = false;
             // 
-            // button4
+            // ReadScreen
             // 
-            button4.BackColor = Color.DarkGoldenrod;
-            button4.FlatStyle = FlatStyle.Popup;
-            button4.ForeColor = Color.White;
-            button4.Location = new Point(12, 12);
-            button4.Name = "button4";
-            button4.Size = new Size(75, 23);
-            button4.TabIndex = 3;
-            button4.Text = "button4";
-            button4.UseVisualStyleBackColor = false;
+            ReadScreen.BackColor = Color.Black;
+            ReadScreen.FlatStyle = FlatStyle.Popup;
+            ReadScreen.Font = new Font("Impact", 9.75F, FontStyle.Italic, GraphicsUnit.Point);
+            ReadScreen.ForeColor = Color.FromArgb(255, 128, 0);
+            ReadScreen.Location = new Point(0, 12);
+            ReadScreen.Name = "ReadScreen";
+            ReadScreen.Size = new Size(75, 23);
+            ReadScreen.TabIndex = 3;
+            ReadScreen.Text = "Read";
+            ReadScreen.UseVisualStyleBackColor = false;
             // 
             // button5
             // 
-            button5.BackColor = Color.DarkGoldenrod;
+            button5.BackColor = Color.Red;
             button5.FlatStyle = FlatStyle.Popup;
+            button5.Font = new Font("Impact", 9.75F, FontStyle.Italic, GraphicsUnit.Point);
             button5.ForeColor = Color.White;
-            button5.Location = new Point(266, 12);
+            button5.Location = new Point(81, 60);
             button5.Name = "button5";
             button5.Size = new Size(75, 23);
             button5.TabIndex = 4;
             button5.Text = "Stop";
             button5.UseVisualStyleBackColor = false;
             // 
-            // button6
+            // ProcessVM
             // 
-            button6.BackColor = Color.DarkGoldenrod;
-            button6.FlatStyle = FlatStyle.Popup;
-            button6.ForeColor = Color.White;
-            button6.Location = new Point(473, 12);
-            button6.Name = "button6";
-            button6.Size = new Size(75, 23);
-            button6.TabIndex = 5;
-            button6.Text = "button6";
-            button6.UseVisualStyleBackColor = false;
+            ProcessVM.BackColor = Color.Black;
+            ProcessVM.FlatStyle = FlatStyle.Popup;
+            ProcessVM.Font = new Font("Impact", 9.75F, FontStyle.Italic, GraphicsUnit.Point);
+            ProcessVM.ForeColor = Color.FromArgb(255, 128, 0);
+            ProcessVM.Location = new Point(243, 12);
+            ProcessVM.Name = "ProcessVM";
+            ProcessVM.Size = new Size(75, 23);
+            ProcessVM.TabIndex = 5;
+            ProcessVM.Text = "Refresh";
+            ProcessVM.UseVisualStyleBackColor = false;
+            ProcessVM.Click += button6_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.BackColor = Color.Black;
+            label1.Font = new Font("Magneto", 24F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.ForeColor = Color.FromArgb(255, 128, 0);
+            label1.Location = new Point(91, -3);
+            label1.Name = "label1";
+            label1.Size = new Size(137, 41);
+            label1.TabIndex = 6;
+            label1.Text = "Scribe";
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.Black;
+            panel1.Dock = DockStyle.Bottom;
+            panel1.Location = new Point(0, 86);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(318, 12);
+            panel1.TabIndex = 7;
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.Black;
+            panel2.Controls.Add(ProcessVM);
+            panel2.Controls.Add(ReadScreen);
+            panel2.Controls.Add(label1);
+            panel2.Dock = DockStyle.Top;
+            panel2.Location = new Point(0, 0);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(318, 35);
+            panel2.TabIndex = 8;
+            // 
+            // textBox1
+            // 
+            textBox1.BackColor = Color.Black;
+            textBox1.BorderStyle = BorderStyle.None;
+            textBox1.Location = new Point(0, 41);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(318, 16);
+            textBox1.TabIndex = 9;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // MainForm
             // 
-            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
-            ClientSize = new Size(560, 297);
-            Controls.Add(button6);
+            AccessibleDescription = "Scribe (voicemail transcription)";
+            AccessibleName = "Scribe";
+            BackColor = Color.FromArgb(255, 128, 0);
+            ClientSize = new Size(318, 98);
+            Controls.Add(textBox1);
             Controls.Add(button5);
-            Controls.Add(button4);
             Controls.Add(button3);
-            Controls.Add(button2);
+            Controls.Add(Play);
             Controls.Add(button1);
+            Controls.Add(panel1);
+            Controls.Add(panel2);
+            Font = new Font("Magneto", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            ForeColor = Color.White;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "MainForm";
+            Load += MainForm_Load;
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
-        private void ProcessEmail(MailMessage email)
+        public void ProcessEmail(MailMessage email)
         {
             // Extract the voicemail attachment from the email (if present).
             Attachment voicemailAttachment = email.Attachments.FirstOrDefault(a =>
@@ -273,16 +342,60 @@ namespace Scribe
             ProcessVoicemail(filePath);
         }
 
-        private void button2_Click(object sender, EventArgs e)
+
+
+        private Button button1;
+        private Button Play;
+        private Button button3;
+        private Button ReadScreen;
+        private Button button5;
+        private Label label1;
+        private Panel panel1;
+        private Panel panel2;
+        private TextBox textBox1;
+        private Button ProcessVM;
+
+        private void MainForm_Load(object sender, EventArgs e)
         {
 
         }
 
-        private Button button1;
-        private Button button2;
-        private Button button3;
-        private Button button4;
-        private Button button5;
-        private Button button6;
+        private void button4_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Voicemail Transcription");
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            ProcessEmailsButton_Click(sender, e);
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
+        static void PopUp(string transcription)
+        {
+            // Create a new instance of the form to display the transcription
+            Form transcriptionForm = new Form();
+            transcriptionForm.Text = "Voicemail Transcription";
+            transcriptionForm.Size = new Size(400, 300);
+
+            // Create a label to display the transcription
+            Label transcriptionLabel = new Label();
+            transcriptionLabel.Text = transcription;
+            transcriptionLabel.Dock = DockStyle.Fill;
+            transcriptionLabel.TextAlign = ContentAlignment.MiddleCenter;
+
+            // Add the label to the form
+            transcriptionForm.Controls.Add(transcriptionLabel);
+
+            // Display the form as a dialog box
+            transcriptionForm.ShowDialog();
+        }
+
     }
+
 }
