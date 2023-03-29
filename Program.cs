@@ -36,7 +36,7 @@ namespace Scribe
         }
 
 
-        class Program
+        class MyProgram
         {
             [STAThread]
             static void Main()
@@ -46,6 +46,7 @@ namespace Scribe
                 Application.Run(new MainForm());
             }
         }
+
 
 
         private void ProcessEmailsButton_Click(object sender, EventArgs e)
@@ -65,6 +66,18 @@ namespace Scribe
 
         private async void ProcessVoicemail(string voicemailPath)
         {
+            if (string.IsNullOrEmpty(voicemailPath))
+            {
+                Console.WriteLine("Invalid voicemail path.");
+                return;
+            }
+
+            if (!File.Exists(voicemailPath))
+            {
+                Console.WriteLine($"Voicemail file not found: {voicemailPath}");
+                return;
+            }
+
             // Use the Speech SDK to transcribe the voicemail.
             var config = SpeechConfig.FromSubscription(_configuration["SpeechToText:SubscriptionKey"], _configuration["SpeechToText:Region"]);
             using var audioInput = AudioConfig.FromWavFileInput(voicemailPath);
@@ -135,6 +148,15 @@ namespace Scribe
             var searchQuery = SearchQuery.NotSeen;
             var uids = inbox.Search(searchQuery);
             var messages = new MailMessage[uids.Count];
+            var port = Convert.ToInt32(_configuration["Email:995"]);
+            var useSsl = Convert.ToBoolean(_configuration["Email:UseSsl"]);
+            var userName = _configuration["Email:nick_sumner@yahoo.com"];
+            var password = _configuration["Email:ygdjyupmgkcnlsoz"];
+            var host = _configuration["Email:smtp.mail.yahoo.com"];
+            if (string.IsNullOrEmpty(host))
+            {
+                throw new ArgumentNullException(nameof(host), "The host parameter cannot be null or empty.");
+            }
             for (int i = 0; i < uids.Count; i++)
             {
                 var message = inbox.GetMessage(uids[i]);
@@ -358,6 +380,31 @@ namespace Scribe
         private void MainForm_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            // Assuming voicemail file path is stored in a string variable called "voicemailLocation"
+            string voicemailLocation = @"C:\path\to\voicemail.wav";
+
+            if (!File.Exists(voicemailLocation))
+            {
+                MessageBox.Show("Voicemail file not found.");
+                return;
+            }
+
+            // Initialize a new instance of the SoundPlayer class with the voicemail file path
+            SoundPlayer player = new SoundPlayer(voicemailLocation);
+
+            try
+            {
+                // Play the voicemail
+                player.Play();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error playing voicemail: " + ex.Message);
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
