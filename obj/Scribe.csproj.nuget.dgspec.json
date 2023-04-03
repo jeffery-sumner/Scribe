@@ -44,6 +44,18 @@
         "net6.0-windows7.0": {
           "targetAlias": "net6.0-windows",
           "dependencies": {
+            "Google.Apis": {
+              "target": "Package",
+              "version": "[1.60.0, )"
+            },
+            "Google.Apis.Auth": {
+              "target": "Package",
+              "version": "[1.60.0, )"
+            },
+            "Google.Cloud.Speech.V1": {
+              "target": "Package",
+              "version": "[3.4.0, )"
+            },
             "MailKit": {
               "target": "Package",
               "version": "[3.6.0, )"
@@ -84,7 +96,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

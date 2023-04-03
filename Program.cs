@@ -16,6 +16,10 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using System.Media;
 using System.Reflection;
 using NAudio.Wave;
+using System.Configuration;
+using Google.Cloud.Speech.V1;
+using Grpc.Core;
+using System.Net.NetworkInformation;
 
 namespace Scribe
 {
@@ -49,7 +53,16 @@ namespace Scribe
             }
         }
 
+        private static async Task<bool> PingAsync()
+        {
+            var hostUrl = "imap.mail.yahoo.com";
 
+            Ping ping = new Ping();
+
+            PingReply result = await ping.SendPingAsync(hostUrl);
+            return result.Status == IPStatus.Success;
+            Console.WriteLine(result);
+        }
 
         private void ProcessEmailsButton_Click(object sender, EventArgs e)
         {
@@ -143,22 +156,16 @@ namespace Scribe
         private MailMessage[] RetrieveNewEmails()
         {
             using var client = new ImapClient();
-            var host = _configuration["Email:Host"] ?? "smtp.mail.yahoo.com";
-            client.Connect(host, Convert.ToInt32(_configuration.GetSection("Email:Port").Value), Convert.ToBoolean(_configuration.GetSection("Email:UseSsl").Value));
-            client.Authenticate(_configuration["Email:nick_sumner@yahoo.com"], _configuration["Email:ygdjyupmgkcnlsoz"]);
+            var host = _configuration["Email:Host"] ?? "imap.mail.yahoo.com";
+            var port = Convert.ToInt32(_configuration["Email:IncomingPort"]);
+            var useSsl = Convert.ToBoolean(_configuration["Email:UseSsl"]);
+            client.Connect(host, port, useSsl);
+            client.Authenticate(_configuration["Email:UserName"], _configuration["Email:Password"]);
             var inbox = client.Inbox;
             inbox.Open(FolderAccess.ReadOnly);
             var searchQuery = SearchQuery.NotSeen;
             var uids = inbox.Search(searchQuery);
             var messages = new MailMessage[uids.Count];
-            var port = Convert.ToInt32(_configuration["Email:995"]);
-            var useSsl = Convert.ToBoolean(_configuration["Email:UseSsl"]);
-            var userName = _configuration["Email:nick_sumner@yahoo.com"];
-            var password = _configuration["Email:ygdjyupmgkcnlsoz"];
-            if (string.IsNullOrEmpty(host))
-            {
-                throw new ArgumentNullException(nameof(host), "The host parameter cannot be null or empty.");
-            }
             for (int i = 0; i < uids.Count; i++)
             {
                 var message = inbox.GetMessage(uids[i]);
@@ -312,7 +319,7 @@ namespace Scribe
             // 
             textBox1.BackColor = Color.Black;
             textBox1.BorderStyle = BorderStyle.None;
-            textBox1.Location = new Point(0, 41);
+            textBox1.Location = new Point(0, 38);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(318, 16);
             textBox1.TabIndex = 9;
@@ -489,6 +496,8 @@ namespace Scribe
 
         private void button6_Click(object sender, EventArgs e)
         {
+            _ = PingAsync();
+
             ProcessEmailsButton_Click(sender, e);
         }
 
